@@ -14,6 +14,10 @@ E-Game lover, Code lover, Music lover, not a big fan of sports but a super fake 
 
 Now got a [girlfriend][gf] who calls herself with a great coding gift but just do not want to learn. Cause she's afraid to steel my thunder. And she is easily going creazy when I don't play with her.
 
+### About this site
+
+This is a completely static site powered by [Jekyll][Jekyll]. Used to post creazy ideas and suck notes of me. You can fork the code of this site through [github][github], but please switch the picture of me in this page, it's not good-looking anyway. Any article of this site can be transported, a link to the original article will be appreciated.
+
 Want to know more? follow on [Weibo][social].
 
 [uni-ol]: http://www.uestc.edu.cn/
@@ -21,5 +25,5 @@ Want to know more? follow on [Weibo][social].
 [sport]: http://www.chelseafc.com/
 [social]: http://weibo.com/louissherren/profile?rightmod=1&wvr=5&mod=personinfo
 [gf]: http://weibo.com/u/1625448152?topnav=1&wvr=5&topsug=1
-
-
+[Jekyll]: http://jekyllrb.com/
+[github]: https://github.com/louis-sherren/blog/
