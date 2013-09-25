@@ -1,0 +1,10 @@
+---
+layout: default
+permalink: /category/
+---
+ 
+{% for post in post in site.categories.[page.category] %}
+  <h2><a href="{{ post.url }}" title="[Permalink] {{ post.title }}">{{ post.title }}</a></h2>
+	<div class="post_date">{{ post.date | date_to_long_string }}</div>
+  {{ post.content }}
+{% endfor %}

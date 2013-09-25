@@ -1,0 +1,42 @@
+---
+layout: default
+---
+ 
+{% for post in paginator.posts %}
+
+  <h2><a href="{{ post.url }}" title="[Permalink] {{ post.title }}">{{ post.title }}</a></h2>
+	<div class="post_date">{{ post.date | date_to_long_string }}</div>
+ 
+  {{ post.content }}
+
+ 
+  {% if post != paginator.posts.last %}
+
+  {% endif %}
+{% endfor %}
+ 
+<div class="paginator">
+  
+  <div class="left_column">
+    {% if paginator.previous_page %}
+    <a href="
+        {% if paginator.previous_page == 1 %}
+        /
+        {% else %}
+        /page{{ paginator.previous_page }}/
+        {% endif %}
+        " title="上一页">&laquo; 上一页</a>
+    {% endif %}
+		&nbsp;
+  </div>
+  
+  <div class="right_column">
+    {% if paginator.next_page %}
+      <a href="/page{{ paginator.next_page }}" title="下一页">下一页 &raquo;</a>
+    {% endif %}
+		&nbsp;
+  </div>
+  <div class="clear_both">
+  </div>
+ 
+</div>
