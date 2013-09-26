@@ -23,42 +23,64 @@
     		<a href="/" title="louis-sherren">louis sherren</a>
     	</h1>
     </div>
+    <div class="clear_both"></div>
     <div id="navigation">
     	<ul>
-    		<li><a href="/" title="Blog">Blog</a>&bull;</li> 
-    		<li><a href="/archive/" title="Archive of this Blog">Archive</a>&bull;</li> 
     		<li><a href="/about/" title="About this Blog">About</a></li>
+    		<li><a href="/archive/" title="Archive of this Blog">Archive</a>&bull;</li> 
+            <li id="c_popup"><a href="javascript:void" title="Category">Category</a>&bull;</li>
+    		<li><a href="/" title="Blog">Blog</a>&bull;</li> 
     	</ul>
+        <div class="category_popup">
+            <div class="category_popup_main">
+                <div class="category_item" data-href="/categories/linux/">Linux</div>
+                <div class="category_item" data-href="/categories/php/">PHP</div>
+                <div class="category_item" data-href="/categories/shell/">Shell</div>
+                <div class="category_item" data-href="/categories/gist/">Gist</div>
+                <div class="category_item" data-href="/categories/javascript/">JavaScript</div>
+                <div class="category_item" data-href="/categories/c/">C</div>
+                <div class="category_item" data-href="/categories/python/">Python</div>
+                <div class="category_item" data-href="/categories/apache/">Apache</div>
+                <div class="clear_both"></div>
+            </div>
+        </div>
     </div>			
-
     <div class="clear_both"></div>
-
 		<h2>
 	<a href="/2013/09/wo-le-ge-cao/" title="[Permalink] my first post1">my first post1</a>
 </h2>
 <div class="post_date">23 September 2013</div>
 
-<p>You&#8217;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes! To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+<p>You&#39;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
+To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
 
 <p>Jekyll also offers powerful support for code snippets:</p>
-<div class='highlight'><pre><code class='ruby'><span class='k'>def</span> <span class='nf'>print_hi</span><span class='p'>(</span><span class='nb'>name</span><span class='p'>)</span>
-  <span class='nb'>puts</span> <span class='s2'>&quot;Hi, </span><span class='si'>#{</span><span class='nb'>name</span><span class='si'>}</span><span class='s2'>&quot;</span>
-<span class='k'>end</span>
-<span class='n'>print_hi</span><span class='p'>(</span><span class='s1'>&#39;Tom&#39;</span><span class='p'>)</span>
-<span class='c1'>#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
+<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
 </code></pre>
 </div>
-<p>Check out the <a href='http://jekyllrb.com'>Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href='https://github.com/mojombo/jekyll'>Jekyll&#8217;s GitHub repo</a>.</p>
+
+<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&#39;s GitHub repo</a>.</p>
+
 
 <div class="previous_next_post">
 
   
     <p>
       <strong>Previous Entry:</strong>
-      <a href="/2013/09/welcome-to-jekyll/" title="Welcome to Jekyll!">Welcome to Jekyll!</a>
+      <a href="/2013/09/which-httpd-handle-my-request/" title="是哪个apache进程处理了我的请求">是哪个apache进程处理了我的请求</a>
     </p>
   
 
+  
+    <p>
+      <strong>Next Entry:</strong>
+      <a href="/2013/09/vpn-setup/" title="搭一个VPN服务器需要些什么">搭一个VPN服务器需要些什么</a>
+    </p>
   
   
   <div style="clear: both;"></div>
@@ -68,7 +90,29 @@
 
 		
     <div id="footer">
-      Powered by <a href="http://github.com/mojombo/jekyll" title="Jekyll Site Generator">Jekyll</a> &amp; <a href="http://disqus.com/" title="Disqus Commenting System">Disqus</a> - <a href="/imprint/" title="Impressum">Imprint</a>
+      Powered by <a href="http://github.com/mojombo/jekyll" title="Jekyll Site Generator">Jekyll</a> 
+
     </div>
+    <script src="/scripts/jquery.js"></script>
+    <script>
+        var c_popup = $("#c_popup");
+        var category_popup = $(".category_popup");
+        var category_items = $(".category_item");
+        c_popup.mouseover(function(){
+            category_popup.show();
+        });
+        c_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        category_popup.mouseover(function(){
+            category_popup.show();
+        })
+        category_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        $(".category_item").click(function(){
+            location.href = $(this).attr("data-href");
+        });
+    </script>
   </body>
 </html>

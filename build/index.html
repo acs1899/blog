@@ -23,32 +23,178 @@
     		<a href="/" title="louis-sherren">louis sherren</a>
     	</h1>
     </div>
+    <div class="clear_both"></div>
     <div id="navigation">
     	<ul>
-    		<li><a href="/" title="Blog">Blog</a>&bull;</li> 
-    		<li><a href="/archive/" title="Archive of this Blog">Archive</a>&bull;</li> 
     		<li><a href="/about/" title="About this Blog">About</a></li>
+    		<li><a href="/archive/" title="Archive of this Blog">Archive</a>&bull;</li> 
+            <li id="c_popup"><a href="javascript:void" title="Category">Category</a>&bull;</li>
+    		<li><a href="/" title="Blog">Blog</a>&bull;</li> 
     	</ul>
+        <div class="category_popup">
+            <div class="category_popup_main">
+                <div class="category_item" data-href="/categories/linux/">Linux</div>
+                <div class="category_item" data-href="/categories/php/">PHP</div>
+                <div class="category_item" data-href="/categories/shell/">Shell</div>
+                <div class="category_item" data-href="/categories/gist/">Gist</div>
+                <div class="category_item" data-href="/categories/javascript/">JavaScript</div>
+                <div class="category_item" data-href="/categories/c/">C</div>
+                <div class="category_item" data-href="/categories/python/">Python</div>
+                <div class="category_item" data-href="/categories/apache/">Apache</div>
+                <div class="clear_both"></div>
+            </div>
+        </div>
     </div>			
-
     <div class="clear_both"></div>
-
 		
+
+  <h2><a href="/2013/09/vpn-setup/" title="[Permalink] 搭一个VPN服务器需要些什么">搭一个VPN服务器需要些什么</a></h2>
+	<div class="post_date">26 September 2013</div>
+ 
+  <blockquote>
+<p>本文主要细谈搭建VPN服务器（包括测试）需要用到的知识点，不会详细说明VPN的配置</p>
+</blockquote>
+
+<h3>安装</h3>
+
+<p>要搭配一个PPTPD VPN，需要安装以下软件包：</p>
+
+<ul>
+<li>ppp</li>
+<li>pptpd</li>
+</ul>
+
+<p>他们是用来做什么的不清楚，从包信息上看ppp是point to pint协议守护进程，PPTPD才是VPN的守护进程</p>
+
+<p>安装pptpd yum源没有，在网上下载rpm包手动安装，下面说明RPM命令的使用方法：</p>
+
+<h4>rpm</h4>
+
+<ul>
+<li>-q --query 查询包信息</li>
+<li>-i --install 安装包</li>
+<li>-u --upgrade 升级包</li>
+</ul>
+
+<p>下面是一些常用的组合命令</p>
+
+<blockquote>
+<p>rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议
+rpm -ivh -replacepkgs 替换原有的相同包</p>
+
+<p>rpm -qa q表示查看包，a表示查看所有安装的包
+rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西
+rpm -qpi i information 查看包的信息
+rpm -qf f file 查看某个文件属于哪个包
+which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
+</blockquote>
+
+<h3>起服务</h3>
+
+<blockquote>
+<p>/etc/init.d/pptpd start</p>
+</blockquote>
+
+<p>然后用chkconfig设置开机自动启动</p>
+
+<blockquote>
+<p>chkconfig pptpd on</p>
+</blockquote>
+
+<h4>chkconfig</h4>
+
+<p>chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数都是用来设置开机自动启动。</p>
+
+<blockquote>
+<p>chkconfig pptpd off 关闭开机自动启动</p>
+</blockquote>
+
+<h3>nat转发</h3>
+
+<p>一切风平浪静的话，简单的配置一下/etc/pptpd.conf 和 /etc/ppp/options.pptpd 就可以连了，
+但现实是冷酷残酷甚至桎梏的，连上VPN 只能算是可以和VPN服务器通信，现在还得让VPN服务器将
+来源流量转发到eth0网卡上</p>
+
+<h4>iptables</h4>
+
+<p>iptables 就是防火墙，可以根据自定义的过滤规则设置哪些数据包接受哪些数据包丢弃，还可以设置流量转发</p>
+
+<blockquote>
+<p>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0网段的流量(-s 192.168.0.0/24)
+转发到eth0网卡上(-o eth0)</p>
+</blockquote>
+
+<p>iptables 东西太多了， 这里就不细讲</p>
+
+
+ 
+  
+
+  
+
 
   <h2><a href="/2013/09/wo-le-ge-cao/" title="[Permalink] my first post1">my first post1</a></h2>
 	<div class="post_date">23 September 2013</div>
  
-  <p>You&#8217;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes! To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+  <p>You&#39;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
+To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
 
 <p>Jekyll also offers powerful support for code snippets:</p>
-<div class='highlight'><pre><code class='ruby'><span class='k'>def</span> <span class='nf'>print_hi</span><span class='p'>(</span><span class='nb'>name</span><span class='p'>)</span>
-  <span class='nb'>puts</span> <span class='s2'>&quot;Hi, </span><span class='si'>#{</span><span class='nb'>name</span><span class='si'>}</span><span class='s2'>&quot;</span>
-<span class='k'>end</span>
-<span class='n'>print_hi</span><span class='p'>(</span><span class='s1'>&#39;Tom&#39;</span><span class='p'>)</span>
-<span class='c1'>#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
+<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
 </code></pre>
 </div>
-<p>Check out the <a href='http://jekyllrb.com'>Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href='https://github.com/mojombo/jekyll'>Jekyll&#8217;s GitHub repo</a>.</p>
+
+<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&#39;s GitHub repo</a>.</p>
+
+
+ 
+  
+
+  
+
+
+  <h2><a href="/2013/09/which-httpd-handle-my-request/" title="[Permalink] 是哪个apache进程处理了我的请求">是哪个apache进程处理了我的请求</a></h2>
+	<div class="post_date">23 September 2013</div>
+ 
+  <blockquote>
+<p>当一个HTTP请求过来了，如何查看是哪个HTTPD在处理这个请求呢？</p>
+</blockquote>
+
+<hr>
+
+<p>首先用</p>
+
+<blockquote>
+<p>netstat -ntpea</p>
+</blockquote>
+
+<p>查找监听80端口的进程并且状态为ESTABILISH的进程Inode</p>
+
+<ul>
+<li>-t TCP</li>
+<li>-p Show the PID and name of the program to which each socket belongs.</li>
+<li>-e Display additional information.  Use this option twice for maximum detail.</li>
+<li>-a Show both listening and non-listening sockets.</li>
+</ul>
+
+<p>然后在PID列就可以找到进程号了。</p>
+
+<p>如果出现无法显示PID的情况，可以给netstat 加-e参数打印进程的Inode值。</p>
+
+<p>Linux中进程也是文件，所以肯定就有Inode，这时去/proc/*/fd/中查找这个这个值，查找到后获取</p>
+
+<p>上级目录的进程号就可以了，查找命令如下：</p>
+
+<blockquote>
+<p>sudo ls -l /proc/*/fd/ | grep -E &quot;{$Inode}&quot; -A10 -B10</p>
+</blockquote>
+
 
  
   
@@ -59,17 +205,94 @@
   <h2><a href="/2013/09/welcome-to-jekyll/" title="[Permalink] Welcome to Jekyll!">Welcome to Jekyll!</a></h2>
 	<div class="post_date">23 September 2013</div>
  
-  <p>You&#8217;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes! To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+  <p>You&#39;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
+To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
 
 <p>Jekyll also offers powerful support for code snippets:</p>
-<div class='highlight'><pre><code class='ruby'><span class='k'>def</span> <span class='nf'>print_hi</span><span class='p'>(</span><span class='nb'>name</span><span class='p'>)</span>
-  <span class='nb'>puts</span> <span class='s2'>&quot;Hi, </span><span class='si'>#{</span><span class='nb'>name</span><span class='si'>}</span><span class='s2'>&quot;</span>
-<span class='k'>end</span>
-<span class='n'>print_hi</span><span class='p'>(</span><span class='s1'>&#39;Tom&#39;</span><span class='p'>)</span>
-<span class='c1'>#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
+<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
 </code></pre>
 </div>
-<p>Check out the <a href='http://jekyllrb.com'>Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href='https://github.com/mojombo/jekyll'>Jekyll&#8217;s GitHub repo</a>.</p>
+
+<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&#39;s GitHub repo</a>.</p>
+
+
+ 
+  
+
+  
+
+
+  <h2><a href="/2013/09/my-first-blog/" title="[Permalink] Welcome to Jekyll!">Welcome to Jekyll!</a></h2>
+	<div class="post_date">23 September 2013</div>
+ 
+  <h1>This is an H1</h1>
+
+<h2>This is an H2</h2>
+
+<h1>this is H1</h1>
+
+<h2>this is H2</h2>
+
+<h3>this is H3</h3>
+
+<h4>this is H4</h4>
+
+<blockquote>
+<p>这里是引用
+  ，接着引用</p>
+
+<p>空一行后再起一个引用</p>
+</blockquote>
+
+<ul>
+<li>  无序列表</li>
+<li>  无序列表</li>
+<li><p>无序列表</p></li>
+<li><p>中间有内容</p></li>
+</ul>
+
+<p>这里是内容</p>
+
+<ul>
+<li>  再来点内容
+这里是内容</li>
+</ul>
+
+<ol>
+<li> 有序列表</li>
+<li> 有序列表</li>
+<li> 有序列表</li>
+</ol>
+
+<p>强调区域<strong>这里就是强调区域了</strong>，我了个擦的Vim还支持markdown的高亮</p>
+
+<h2>down here is a line</h2>
+
+<div class="highlight"><pre><code class="php"><span class="cp">&lt;?php</span>
+<span class="k">function</span> <span class="nf">test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">&quot;hahahaha&quot;</span><span class="p">;</span>    
+<span class="p">}</span>
+<span class="k">class</span> <span class="nc">test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$a</span><span class="p">;</span>
+    <span class="k">private</span> <span class="nv">$b</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__constrcut</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">a</span> <span class="o">=</span> <span class="nv">$a</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">b</span> <span class="o">=</span> <span class="nv">$b</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre>
+</div>
+
 
  
   
@@ -86,7 +309,6 @@
     
 		&nbsp;
   </div>
- 
   <div class="clear_both">
   </div>
  
@@ -94,7 +316,29 @@
 
 		
     <div id="footer">
-      Powered by <a href="http://github.com/mojombo/jekyll" title="Jekyll Site Generator">Jekyll</a> &amp; <a href="http://disqus.com/" title="Disqus Commenting System">Disqus</a> - <a href="/imprint/" title="Impressum">Imprint</a>
+      Powered by <a href="http://github.com/mojombo/jekyll" title="Jekyll Site Generator">Jekyll</a> 
+
     </div>
+    <script src="/scripts/jquery.js"></script>
+    <script>
+        var c_popup = $("#c_popup");
+        var category_popup = $(".category_popup");
+        var category_items = $(".category_item");
+        c_popup.mouseover(function(){
+            category_popup.show();
+        });
+        c_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        category_popup.mouseover(function(){
+            category_popup.show();
+        })
+        category_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        $(".category_item").click(function(){
+            location.href = $(this).attr("data-href");
+        });
+    </script>
   </body>
 </html>

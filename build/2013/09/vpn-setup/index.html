@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
 		
-      <title>Welcome to Jekyll! &bull; Louis-Sherren</title>
+      <title>搭一个VPN服务器需要些什么 &bull; Louis-Sherren</title>
 		
     <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" media="all" />
@@ -47,24 +47,85 @@
     </div>			
     <div class="clear_both"></div>
 		<h2>
-	<a href="/2013/09/welcome-to-jekyll/" title="[Permalink] Welcome to Jekyll!">Welcome to Jekyll!</a>
+	<a href="/2013/09/vpn-setup/" title="[Permalink] 搭一个VPN服务器需要些什么">搭一个VPN服务器需要些什么</a>
 </h2>
-<div class="post_date">23 September 2013</div>
+<div class="post_date">26 September 2013</div>
 
-<p>You&#39;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
-To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+<blockquote>
+<p>本文主要细谈搭建VPN服务器（包括测试）需要用到的知识点，不会详细说明VPN的配置</p>
+</blockquote>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<h3>安装</h3>
 
-<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
-<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
-</code></pre>
-</div>
+<p>要搭配一个PPTPD VPN，需要安装以下软件包：</p>
 
-<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&#39;s GitHub repo</a>.</p>
+<ul>
+<li>ppp</li>
+<li>pptpd</li>
+</ul>
+
+<p>他们是用来做什么的不清楚，从包信息上看ppp是point to pint协议守护进程，PPTPD才是VPN的守护进程</p>
+
+<p>安装pptpd yum源没有，在网上下载rpm包手动安装，下面说明RPM命令的使用方法：</p>
+
+<h4>rpm</h4>
+
+<ul>
+<li>-q --query 查询包信息</li>
+<li>-i --install 安装包</li>
+<li>-u --upgrade 升级包</li>
+</ul>
+
+<p>下面是一些常用的组合命令</p>
+
+<blockquote>
+<p>rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议
+rpm -ivh -replacepkgs 替换原有的相同包</p>
+
+<p>rpm -qa q表示查看包，a表示查看所有安装的包
+rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西
+rpm -qpi i information 查看包的信息
+rpm -qf f file 查看某个文件属于哪个包
+which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
+</blockquote>
+
+<h3>起服务</h3>
+
+<blockquote>
+<p>/etc/init.d/pptpd start</p>
+</blockquote>
+
+<p>然后用chkconfig设置开机自动启动</p>
+
+<blockquote>
+<p>chkconfig pptpd on</p>
+</blockquote>
+
+<h4>chkconfig</h4>
+
+<p>chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数都是用来设置开机自动启动。</p>
+
+<blockquote>
+<p>chkconfig pptpd off 关闭开机自动启动</p>
+</blockquote>
+
+<h3>nat转发</h3>
+
+<p>一切风平浪静的话，简单的配置一下/etc/pptpd.conf 和 /etc/ppp/options.pptpd 就可以连了，
+但现实是冷酷残酷甚至桎梏的，连上VPN 只能算是可以和VPN服务器通信，现在还得让VPN服务器将
+来源流量转发到eth0网卡上</p>
+
+<h4>iptables</h4>
+
+<p>iptables 就是防火墙，可以根据自定义的过滤规则设置哪些数据包接受哪些数据包丢弃，还可以设置流量转发</p>
+
+<blockquote>
+<p>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0网段的流量(-s 192.168.0.0/24)
+转发到eth0网卡上(-o eth0)</p>
+</blockquote>
+
+<p>iptables 东西太多了， 这里就不细讲</p>
 
 
 <div class="previous_next_post">
@@ -72,15 +133,10 @@ To add new posts, simply add a file in the <code>_posts</code> directory that fo
   
     <p>
       <strong>Previous Entry:</strong>
-      <a href="/2013/09/my-first-blog/" title="Welcome to Jekyll!">Welcome to Jekyll!</a>
+      <a href="/2013/09/wo-le-ge-cao/" title="my first post1">my first post1</a>
     </p>
   
 
-  
-    <p>
-      <strong>Next Entry:</strong>
-      <a href="/2013/09/which-httpd-handle-my-request/" title="是哪个apache进程处理了我的请求">是哪个apache进程处理了我的请求</a>
-    </p>
   
   
   <div style="clear: both;"></div>

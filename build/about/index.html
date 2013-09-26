@@ -23,35 +23,76 @@
     		<a href="/" title="louis-sherren">louis sherren</a>
     	</h1>
     </div>
+    <div class="clear_both"></div>
     <div id="navigation">
     	<ul>
-    		<li><a href="/" title="Blog">Blog</a>&bull;</li> 
-    		<li><a href="/archive/" title="Archive of this Blog">Archive</a>&bull;</li> 
     		<li><a href="/about/" title="About this Blog">About</a></li>
+    		<li><a href="/archive/" title="Archive of this Blog">Archive</a>&bull;</li> 
+            <li id="c_popup"><a href="javascript:void" title="Category">Category</a>&bull;</li>
+    		<li><a href="/" title="Blog">Blog</a>&bull;</li> 
     	</ul>
+        <div class="category_popup">
+            <div class="category_popup_main">
+                <div class="category_item" data-href="/categories/linux/">Linux</div>
+                <div class="category_item" data-href="/categories/php/">PHP</div>
+                <div class="category_item" data-href="/categories/shell/">Shell</div>
+                <div class="category_item" data-href="/categories/gist/">Gist</div>
+                <div class="category_item" data-href="/categories/javascript/">JavaScript</div>
+                <div class="category_item" data-href="/categories/c/">C</div>
+                <div class="category_item" data-href="/categories/python/">Python</div>
+                <div class="category_item" data-href="/categories/apache/">Apache</div>
+                <div class="clear_both"></div>
+            </div>
+        </div>
     </div>			
-
     <div class="clear_both"></div>
-
 		<div class="post">
  
     <h2>About</h2>
  
-    <img alt='wulfovitch' class='img_left' src='/images/about/avatar.png' title='wulfovitch' />
-<h3 id='who_is_this_guy'>Who is this guy?</h3>
+    <p><img src="/images/about/avatar.png" title="wulfovitch" class="img_left" alt="wulfovitch" /></p>
 
-<p>This is a super two huo who graduated from <a href='http://www.uestc.edu.cn/'>University of Electronic Science and Technology of China</a>, majored in Optoelectronic Information but didn&#8217;t give a shit, escaped all classes to study computer science. And now become a senior Jiangyou in <a href='http://sae.sina.com.cn/'>Sina SAE</a>.</p>
+<h3>Who is this guy?</h3>
 
-<p>E-Game lover, Code lover, Music lover, not a big fan of sports but a super fake fan of <a href='http://www.chelseafc.com/'>Chelsea</a>. Never forget watching the collection of great goals after a game of Chelsea.</p>
+<p>This is a super two huo who graduated from <a href="http://www.uestc.edu.cn/">University of Electronic Science and Technology of China</a>, majored in Optoelectronic Information but didn&#39;t give a shit, escaped all classes to study computer science. And now become a senior Jiangyou in <a href="http://sae.sina.com.cn/">Sina SAE</a>.</p>
 
-<p>Now got a <a href='http://weibo.com/u/1625448152?topnav=1&amp;wvr=5&amp;topsug=1'>girlfriend</a> who calls herself with a great coding gift but just do not want to learn. Cause she&#8217;s afraid to steel my thunder. And she is easily going creazy when I don&#8217;t play with her.</p>
+<p>E-Game lover, Code lover, Music lover, not a big fan of sports but a super fake fan of <a href="http://www.chelseafc.com/">Chelsea</a>. Never forget watching the collection of great goals after a game of Chelsea. </p>
 
-<p>Want to know more? follow on <a href='http://weibo.com/louissherren/profile?rightmod=1&amp;wvr=5&amp;mod=personinfo'>Weibo</a>.</p>
+<p>Now got a <a href="http://weibo.com/u/1625448152?topnav=1&amp;wvr=5&amp;topsug=1">girlfriend</a> who calls herself with a great coding gift but just do not want to learn. Cause she&#39;s afraid to steel my thunder. And she is easily going creazy when I don&#39;t play with her.</p>
+
+<h3>About this site</h3>
+
+<p>This is a completely static site powered by <a href="http://jekyllrb.com/">Jekyll</a>. Used to post creazy ideas and suck notes of me. You can fork the code of this site through <a href="https://github.com/louis-sherren/blog/">github</a>, but please switch the picture of me in this page, it&#39;s not good-looking anyway. Any article of this site can be transported, a link to the original article will be appreciated.</p>
+
+<p>Want to know more? follow on <a href="http://weibo.com/louissherren/profile?rightmod=1&amp;wvr=5&amp;mod=personinfo">Weibo</a>.</p>
+
  
 </div>
 		
     <div id="footer">
-      Powered by <a href="http://github.com/mojombo/jekyll" title="Jekyll Site Generator">Jekyll</a> &amp; <a href="http://disqus.com/" title="Disqus Commenting System">Disqus</a> - <a href="/imprint/" title="Impressum">Imprint</a>
+      Powered by <a href="http://github.com/mojombo/jekyll" title="Jekyll Site Generator">Jekyll</a> 
+
     </div>
+    <script src="/scripts/jquery.js"></script>
+    <script>
+        var c_popup = $("#c_popup");
+        var category_popup = $(".category_popup");
+        var category_items = $(".category_item");
+        c_popup.mouseover(function(){
+            category_popup.show();
+        });
+        c_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        category_popup.mouseover(function(){
+            category_popup.show();
+        })
+        category_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        $(".category_item").click(function(){
+            location.href = $(this).attr("data-href");
+        });
+    </script>
   </body>
 </html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
 		
-      <title>Welcome to Jekyll! &bull; Louis-Sherren</title>
+      <title>是哪个apache进程处理了我的请求 &bull; Louis-Sherren</title>
 		
     <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" media="all" />
@@ -47,24 +47,42 @@
     </div>			
     <div class="clear_both"></div>
 		<h2>
-	<a href="/2013/09/welcome-to-jekyll/" title="[Permalink] Welcome to Jekyll!">Welcome to Jekyll!</a>
+	<a href="/2013/09/which-httpd-handle-my-request/" title="[Permalink] 是哪个apache进程处理了我的请求">是哪个apache进程处理了我的请求</a>
 </h2>
 <div class="post_date">23 September 2013</div>
 
-<p>You&#39;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
-To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+<blockquote>
+<p>当一个HTTP请求过来了，如何查看是哪个HTTPD在处理这个请求呢？</p>
+</blockquote>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<hr>
 
-<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
-<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
-</code></pre>
-</div>
+<p>首先用</p>
 
-<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&#39;s GitHub repo</a>.</p>
+<blockquote>
+<p>netstat -ntpea</p>
+</blockquote>
+
+<p>查找监听80端口的进程并且状态为ESTABILISH的进程Inode</p>
+
+<ul>
+<li>-t TCP</li>
+<li>-p Show the PID and name of the program to which each socket belongs.</li>
+<li>-e Display additional information.  Use this option twice for maximum detail.</li>
+<li>-a Show both listening and non-listening sockets.</li>
+</ul>
+
+<p>然后在PID列就可以找到进程号了。</p>
+
+<p>如果出现无法显示PID的情况，可以给netstat 加-e参数打印进程的Inode值。</p>
+
+<p>Linux中进程也是文件，所以肯定就有Inode，这时去/proc/*/fd/中查找这个这个值，查找到后获取</p>
+
+<p>上级目录的进程号就可以了，查找命令如下：</p>
+
+<blockquote>
+<p>sudo ls -l /proc/*/fd/ | grep -E &quot;{$Inode}&quot; -A10 -B10</p>
+</blockquote>
 
 
 <div class="previous_next_post">
@@ -72,14 +90,14 @@ To add new posts, simply add a file in the <code>_posts</code> directory that fo
   
     <p>
       <strong>Previous Entry:</strong>
-      <a href="/2013/09/my-first-blog/" title="Welcome to Jekyll!">Welcome to Jekyll!</a>
+      <a href="/2013/09/welcome-to-jekyll/" title="Welcome to Jekyll!">Welcome to Jekyll!</a>
     </p>
   
 
   
     <p>
       <strong>Next Entry:</strong>
-      <a href="/2013/09/which-httpd-handle-my-request/" title="是哪个apache进程处理了我的请求">是哪个apache进程处理了我的请求</a>
+      <a href="/2013/09/wo-le-ge-cao/" title="my first post1">my first post1</a>
     </p>
   
   
