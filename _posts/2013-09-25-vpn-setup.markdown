@@ -1,0 +1,71 @@
+---
+layout: post
+title:  搭一个VPN服务器需要些什么
+date:   2013-09-26 11:27:33
+categories: linux
+---
+
+> 本文主要细谈搭建VPN服务器（包括测试）需要用到的知识点，不会详细说明VPN的配置
+
+
+### 安装
+
+要搭配一个PPTPD VPN，需要安装以下软件包：
+
+* ppp
+* pptpd
+
+他们是用来做什么的不清楚，从包信息上看ppp是point to pint协议守护进程，PPTPD才是VPN的守护进程
+
+安装pptpd yum源没有，在网上下载rpm包手动安装，下面说明RPM命令的使用方法：
+
+#### rpm
+
+* -q --query 查询包信息
+* -i --install 安装包
+* -u --upgrade 升级包
+
+下面是一些常用的组合命令
+
+> rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议
+> rpm -ivh -replacepkgs 替换原有的相同包
+
+
+> rpm -qa q表示查看包，a表示查看所有安装的包
+> rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西
+> rpm -qpi i information 查看包的信息
+> rpm -qf f file 查看某个文件属于哪个包
+> which python | xargs rpm -qf 查看可执行文件python属于哪个包
+
+
+### 起服务
+
+> /etc/init.d/pptpd start
+
+然后用chkconfig设置开机自动启动
+
+> chkconfig pptpd on
+
+#### chkconfig
+chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数都是用来设置开机自动启动。
+
+> chkconfig pptpd off 关闭开机自动启动
+
+
+### nat转发
+一切风平浪静的话，简单的配置一下/etc/pptpd.conf 和 /etc/ppp/options.pptpd 就可以连了，
+但现实是冷酷残酷甚至桎梏的，连上VPN 只能算是可以和VPN服务器通信，现在还得让VPN服务器将
+来源流量转发到eth0网卡上
+
+#### iptables
+iptables 就是防火墙，可以根据自定义的过滤规则设置哪些数据包接受哪些数据包丢弃，还可以设置流量转发
+
+> iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0网段的流量(-s 192.168.0.0/24)
+转发到eth0网卡上(-o eth0)
+
+iptables 东西太多了， 这里就不细讲
+
+
+
+
