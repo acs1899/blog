@@ -28,13 +28,17 @@ categories: linux
 下面是一些常用的组合命令
 
 > rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议
+
 > rpm -ivh -replacepkgs 替换原有的相同包
 
-
 > rpm -qa q表示查看包，a表示查看所有安装的包
+
 > rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西
+
 > rpm -qpi i information 查看包的信息
+
 > rpm -qf f file 查看某个文件属于哪个包
+
 > which python | xargs rpm -qf 查看可执行文件python属于哪个包
 
 
@@ -47,7 +51,7 @@ categories: linux
 > chkconfig pptpd on
 
 #### chkconfig
-chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数都是用来设置开机自动启动。
+chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数情况下都是用来设置开机自动启动
 
 > chkconfig pptpd off 关闭开机自动启动
 
@@ -61,11 +65,54 @@ chkconfig 管理linux各个服务在系统以什么样的方式运行时的状�
 iptables 就是防火墙，可以根据自定义的过滤规则设置哪些数据包接受哪些数据包丢弃，还可以设置流量转发
 
 > iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
-这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0网段的流量(-s 192.168.0.0/24)
-转发到eth0网卡上(-o eth0)
 
-iptables 东西太多了， 这里就不细讲
+这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0.0/255.255.255.0网段的流量(-s 192.168.0.0/24)
+转发到eth0网卡上(-o eth0), 这里-s要根据ppp设置的网段来设置
 
+* -t(table) 选择table
+* -s(source) 指定来源
+* -A(Append) 增加一条规则
+* -o(out) 数据包发出的接口
+* -p(protocol) 数据包协议
+* -m(match?) 可以匹配一些状态信息
+* -j(jump) 匹配到包后执行什么动作
 
+INPUT, FORWARD, POSTROUTING, OUTPUT等是chain(链), 指数据包正处的位置
 
+设置完iptables后, Linux需要开启内核流量转发
 
+> echo "1" > /proc/sys/net/ipv4/ip_forward
+
+设置开机自动
+
+> vim /etc/sysctl.conf
+
+修改以下信息:
+
+> net.ipv4.ip_forward = 0 #0为关闭，1为开启
+
+现在如果一切正常的话，VPN应该就能正常使用了
+
+### 错误处理
+
+####日志
+
+VPN 客户端或服务器每次连接都会写/var/log日志, 在/var/log中ls -l一下可以看出最近修改的文件, 查看最近修改的文件就可以知道VPN打的日志了
+
+####tcpdump
+
+* -i(interface) 设备
+* port 端口
+* host host
+
+一个常规的dump
+
+> tcpdump -i lo port 80
+
+查看本地HTTPD处理的数据包
+
+> tcpdump -i eth0 port not 80
+
+查看eth0网卡发出的非http数据包
+
+###EOF
