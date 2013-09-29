@@ -73,9 +73,9 @@ windows用户可以参考[这篇文章][windowsjekyll].
 
 {% endhighlight %}
 
-这里可以制定改文件的一些属性 
+这里可以制定该文件的一些属性 
 
-**layout**: 指定改页面用哪个模板.
+**layout**: 指定该页面用哪个模板.
 
 **title**: 文章的标题.
 
