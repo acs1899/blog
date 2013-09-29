@@ -30,7 +30,7 @@ github pages本意是快速给项目或个人创建展示性的页面, 搭建在
 2. markdown乱解析问题.
 3. GFW有时要使坏.
 
-### 在github pages上写一个hello kitty(不是hello world)
+### hello kitty(就是不用 hello world)
 
 首先得去github上建立一个名为{username}.github.io的项目, 并在本地pull到项目, 写一个hello kitty到index.html, 第一次push上去后, 需要等一个大便的时间, 才可以用{username}.github.io来访问到页面. 域名解析在根目录中建立一个名为CNAME的文件, 文件里填写域名就可以了, 修改这个文件后, 要用域名访问博客, 也需要等上一个大便的时间.
 
@@ -115,7 +115,7 @@ layout中是放模板的地方, 每个页面可以制定其模板, 指定了以�
 
 这是文件夹, _include文件夹存放html文件.
 
-include中存放一些常用的html文件, 如头部和脚步. 这个在大多的模板引擎中已经见惯了, 这里就不细谈了. 可以在任意文件中将 include 中的文件夹中的文件通过 **{% include footer.html %}** 引用进来.
+include中存放一些常用的html文件, 如头部和脚步. 这个在大多的模板引擎中已经见惯了, 这里就不细谈了. 可以在任意文件中将 include 中的文件夹中的文件通过 **\{ % include footer.html % \}** 引用进来.
 
 * _posts
 
@@ -148,6 +148,8 @@ jekyll serve表示开启服务, 默认4000端口, --detach表示后台运行. �
 github会自动识别这是一个jekyll项目并进行parse
 
 ### 分类
+
+下回分解
 
 
 [markdown]: http://wowubuntu.com/markdown/
