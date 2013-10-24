@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  zabbix与外部监控脚本整合方案
+title:  杂谈
 date:   2013-10-16 11:27:33
 categories: linux
 ---
