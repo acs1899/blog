@@ -62,7 +62,7 @@ ls ~/.ssh/id_rsa.pub
 su - git
 gitosis-init < ~/.ssh/id_rsa.pub
 sudo chmod 755 /home/git/repositories/gitosis-admin.git/hooks/post-update
-{% endhightlight %}
+{% endhighlight %}
 
 这样在git的HOME文件夹中会出现repositories目录，即仓库目录，目录中有一个gitosis-admin.git目录，即上文提到的。
 现在本机root账户拥有这个仓库的读写权限。
@@ -78,7 +78,7 @@ git init
 git remote add origin git@hostname_or_ipaddr:/gitosis-admin.git
 # 注意这里只有一个 : 和一个 / 
 git pull origin master
-{% endhightlight %}
+{% endhighlight %}
 
 一切顺利的话管理仓库应该会被pull下来的
 编辑gitosis.conf
@@ -87,7 +87,7 @@ git pull origin master
 [group gitosis-admin]  #group代表一个组，gitosis-admin为组名
 writable = gitosis-admin #writable的值为该组的成员可以写的仓库名
 members = louis@laptop #members代表组员，多个组员用空格分割，组员名用username@host的格式
-{% endhightlight %}
+{% endhighlight %}
 
 该配置的意思就是gitosis-admin这个组中有一个 louis@laptop成员，并且该组的成员对 gitosis-admin这个repo可写
 因为这里组名和repo名一样，所以要注意区分，这两个是完全不同的
@@ -117,7 +117,7 @@ cd /home/git/repositories/web.git/hooks
 #创建post-update文件
 touch post-update
 vim post-update
-{% endhightlight %}
+{% endhighlight %}
 
 在psot-update中加入以下代码
 
@@ -126,7 +126,7 @@ DEPLOY_DIR=/var/www/html/
 unset GIT_DIR #!important 如果不使用这句，是无法改变下面git pull的执行环境的
 cd $DEPLOY_DIR
 git pull origin master
-{% endhightlight %}
+{% endhighlight %}
 
 这样当每次push之后，git都会自动在/var/www/html下自动执行一次git pull origin master，这样就实现了自动部署代码的功能。
 
