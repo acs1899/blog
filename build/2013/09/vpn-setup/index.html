@@ -79,14 +79,19 @@
 <p>下面是一些常用的组合命令</p>
 
 <blockquote>
-<p>rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议
-rpm -ivh -replacepkgs 替换原有的相同包</p>
+<p>rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议</p>
 
-<p>rpm -qa q表示查看包，a表示查看所有安装的包
-rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西
-rpm -qpi i information 查看包的信息
-rpm -qf f file 查看某个文件属于哪个包
-which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
+<p>rpm -ivh -replacepkgs 替换原有的相同包</p>
+
+<p>rpm -qa q表示查看包，a表示查看所有安装的包</p>
+
+<p>rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西</p>
+
+<p>rpm -qpi i information 查看包的信息</p>
+
+<p>rpm -qf f file 查看某个文件属于哪个包</p>
+
+<p>which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
 </blockquote>
 
 <h3>起服务</h3>
@@ -103,7 +108,7 @@ which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
 
 <h4>chkconfig</h4>
 
-<p>chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数都是用来设置开机自动启动。</p>
+<p>chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数情况下都是用来设置开机自动启动</p>
 
 <blockquote>
 <p>chkconfig pptpd off 关闭开机自动启动</p>
@@ -120,12 +125,73 @@ which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
 <p>iptables 就是防火墙，可以根据自定义的过滤规则设置哪些数据包接受哪些数据包丢弃，还可以设置流量转发</p>
 
 <blockquote>
-<p>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
-这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0网段的流量(-s 192.168.0.0/24)
-转发到eth0网卡上(-o eth0)</p>
+<p>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</p>
 </blockquote>
 
-<p>iptables 东西太多了， 这里就不细讲</p>
+<p>这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0.0/255.255.255.0网段的流量(-s 192.168.0.0/24)
+转发到eth0网卡上(-o eth0), 这里-s要根据ppp设置的网段来设置</p>
+
+<ul>
+<li>-t(table) 选择table</li>
+<li>-s(source) 指定来源</li>
+<li>-A(Append) 增加一条规则</li>
+<li>-o(out) 数据包发出的接口</li>
+<li>-p(protocol) 数据包协议</li>
+<li>-m(match?) 可以匹配一些状态信息</li>
+<li>-j(jump) 匹配到包后执行什么动作</li>
+</ul>
+
+<p>INPUT, FORWARD, POSTROUTING, OUTPUT等是chain(链), 指数据包正处的位置</p>
+
+<p>设置完iptables后, Linux需要开启内核流量转发</p>
+
+<blockquote>
+<p>echo &quot;1&quot; &gt; /proc/sys/net/ipv4/ip_forward</p>
+</blockquote>
+
+<p>设置开机自动</p>
+
+<blockquote>
+<p>vim /etc/sysctl.conf</p>
+</blockquote>
+
+<p>修改以下信息:</p>
+
+<blockquote>
+<p>net.ipv4.ip_forward = 0 #0为关闭，1为开启</p>
+</blockquote>
+
+<p>现在如果一切正常的话，VPN应该就能正常使用了</p>
+
+<h3>错误处理</h3>
+
+<h4>日志</h4>
+
+<p>VPN 客户端或服务器每次连接都会写/var/log日志, 在/var/log中ls -l一下可以看出最近修改的文件, 查看最近修改的文件就可以知道VPN打的日志了</p>
+
+<h4>tcpdump</h4>
+
+<ul>
+<li>-i(interface) 设备</li>
+<li>port 端口</li>
+<li>host host</li>
+</ul>
+
+<p>一个常规的dump</p>
+
+<blockquote>
+<p>tcpdump -i lo port 80</p>
+</blockquote>
+
+<p>查看本地HTTPD处理的数据包</p>
+
+<blockquote>
+<p>tcpdump -i eth0 port not 80</p>
+</blockquote>
+
+<p>查看eth0网卡发出的非http数据包</p>
+
+<h3>EOF</h3>
 
 
 <div class="previous_next_post">
@@ -137,6 +203,11 @@ which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
     </p>
   
 
+  
+    <p>
+      <strong>Next Entry:</strong>
+      <a href="/2013/09/how-to-build-git/" title="如何用github pages搭建一个博客">如何用github pages搭建一个博客</a>
+    </p>
   
   
   <div style="clear: both;"></div>

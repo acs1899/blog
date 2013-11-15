@@ -48,6 +48,526 @@
     <div class="clear_both"></div>
 		
 
+  <h2><a href="/2013/11/git-quick-start/" title="[Permalink] git quick start">git quick start</a></h2>
+	<div class="post_date">15 November 2013</div>
+ 
+  <blockquote>
+<p>主要讲从安装到使用git，针对windows使用命令行模式（git虽然提供可视化操作界面但功能不全）</p>
+</blockquote>
+
+<hr>
+
+<h3>安装</h3>
+
+<p>windows下安装参考群里的<strong><em>github小项目共同开发超简易图文教程.pdf</em></strong>里的安装部分</p>
+
+<p>这里不多废话了。</p>
+
+<p>安装好后，在cmd（命令行界面）里面敲一下git version看看是否安装成功，如果出现诸如command not found之类的说明安装不正确</p>
+
+<h3>ssh 公钥</h3>
+
+<p>想要往服务器上提交代码，必须要本机有一份私钥，服务器上有一份公钥（配对的）。 要在你的本机生成一对公钥和私钥，然后将公钥交给
+管理员，私钥不动，这样才可以提交代码。</p>
+
+<h4>生成方法</h4>
+
+<p>在cmd中打 ssh-keygen，（windows下git安装好后应该会有这个命令），打完命令后按3次回车就OK。然后在</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1">#1.注意将username改成你自己机器的名字</span>
+<span class="c1">#2. .ssh文件夹可能为隐藏文件夹，需要先设置（妈的windows无比蛋疼）</span>
+<span class="ss">C</span><span class="p">:\</span><span class="no">Documents</span> <span class="ow">and</span> <span class="no">Settings</span><span class="p">\</span><span class="n">username</span><span class="p">\\</span><span class="o">.</span><span class="n">ssh</span><span class="p">\</span> 
+</code></pre>
+</div>
+
+<p>文件下，有rsa和rsa.pub文件，rsa为私钥，不用管，rsa.pub为公钥，将这个文件发送给管理员即可</p>
+
+<p><strong><em>我没有实验过，所以在ssh-keygen的时候最好看一下输出的信息，应该会有钥匙生成的位置什么的</em></strong></p>
+
+<h3>使用git</h3>
+
+<h4>初始化及获取项目代码</h4>
+
+<p>一切配置好之后，就可以部署代码了</p>
+
+<p>在命令行里执行以下操作</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1">#cd到你的项目目录下，如cd D:\wamp\www\snspay\</span>
+<span class="n">cd</span> <span class="vg">$YOUR</span><span class="o">-</span><span class="no">PROJECT</span><span class="o">-</span><span class="no">DIRECTORY</span>
+<span class="n">git</span> <span class="n">init</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">origin</span> <span class="n">git</span><span class="err">@</span><span class="mi">23</span><span class="o">.</span><span class="mi">228</span><span class="o">.</span><span class="mi">209</span><span class="o">.</span><span class="mi">58</span><span class="ss">:/</span><span class="n">snspay</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre>
+</div>
+
+<p>不出意外的话，执行完上述操作，在本地就会自动有一份项目代码了。</p>
+
+<h4>提交更改</h4>
+
+<p>开发完或修复完BUG之后，执行以下命令</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1"># 注意这里的命令也要在项目的根目录里执行</span>
+<span class="n">git</span> <span class="n">add</span> <span class="o">-</span><span class="n">A</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;这里随便写你这次干了哪些事情&quot;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre>
+</div>
+
+<p>OK，代码已经提交到测试环境上了，用http://develope.snspay.com可以查看到你的变更.</p>
+
+<p><strong><em>不要在项目里面放没有用的文件，因为在提交时会连这些没用的文件一起提交</em></strong></p>
+
+<h3>给前端的一些tips</h3>
+
+<p>前端可能需要不断的提交代码来看效果，明显用上述方法会显得很麻烦。</p>
+
+<p>可以参考[这篇][tips]（还没写）文章来看如何在本地搭一个snspay的开发环境。</p>
+
+<p>善用google chrome 的 F12工具，在chrome浏览器中按下F12，可以查看网页HTML代码，CSS文件，JS文件等。</p>
+
+<p>并且可以手动修改这些CSS和HTML，修改效果会马上呈现在页面中，还可以直接执行javascript代码，环境与“当前环境”相同。</p>
+
+<p>遇到问题先思考，思考不下来再谷歌，谷歌不下来去提问（社区最好）。</p>
+
+
+ 
+  
+
+  
+
+
+  <h2><a href="/2013/11/build-git-server/" title="[Permalink] 如何搭建一个自动部署的git server">如何搭建一个自动部署的git server</a></h2>
+	<div class="post_date">12 November 2013</div>
+ 
+  <blockquote>
+<p>该文介绍如何在centos下用gitosis搭建一个带自动部署功能的git server</p>
+</blockquote>
+
+<hr>
+
+<h3>安装</h3>
+
+<ul>
+<li>git </li>
+</ul>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">yum</span> <span class="n">install</span> <span class="n">git</span><span class="o">-</span><span class="n">core</span>
+</code></pre>
+</div>
+
+<ul>
+<li>python setup tools</li>
+</ul>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">yum</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">setuptools</span>
+</code></pre>
+</div>
+
+<ul>
+<li>gitosis</li>
+</ul>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">git</span> <span class="nb">clone</span> <span class="ss">https</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">res0nat0r</span><span class="o">/</span><span class="n">gitosis</span><span class="o">.</span><span class="n">git</span> 
+<span class="n">cd</span> <span class="n">gitosis</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>  
+ 
+</code></pre>
+</div>
+
+<h3>配置</h3>
+
+<ul>
+<li>首先建立一个git用户，专门用来管理git仓库</li>
+</ul>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">useradd</span> <span class="o">-</span><span class="n">m</span> <span class="n">git</span>
+</code></pre>
+</div>
+
+<ul>
+<li>准备一份公钥（ssh public key）</li>
+</ul>
+
+<p>gitosis的初始化需要一份公钥，对应用户即为git repo的管理员。这里管理员对git repo的控制，实际上也是通过控制一个gitosis-admin.git来控制成员和其他repo的，admin-repo中有一份配置文档和一个keydir，keydir里面存放成员的公钥，后面会cover这一点。</p>
+
+<p>现在处于方便，直接将本机用root账户作为repo的管理员，切到root下</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">ssh</span><span class="o">-</span><span class="n">keygen</span>
+<span class="c1"># 三次回车</span>
+<span class="n">ls</span> <span class="o">~</span><span class="sr">/.ssh/i</span><span class="n">d_rsa</span><span class="o">.</span><span class="n">pub</span>
+</code></pre>
+</div>
+
+<p>公钥生成了，即~/.ssh/id_rsa.pub</p>
+
+<ul>
+<li>初始化gitosis</li>
+</ul>
+
+<p>需要先切到git用户下再进行初始化</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">su</span> <span class="o">-</span> <span class="n">git</span>
+<span class="n">gitosis</span><span class="o">-</span><span class="n">init</span> <span class="o">&lt;</span> <span class="o">~</span><span class="sr">/.ssh/i</span><span class="n">d_rsa</span><span class="o">.</span><span class="n">pub</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="mi">755</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">gitosis</span><span class="o">-</span><span class="n">admin</span><span class="o">.</span><span class="n">git</span><span class="o">/</span><span class="n">hooks</span><span class="o">/</span><span class="n">post</span><span class="o">-</span><span class="n">update</span>
+</code></pre>
+</div>
+
+<p>这样在git的HOME文件夹中会出现repositories目录，即仓库目录，目录中有一个gitosis-admin.git目录，即上文提到的。
+现在本机root账户拥有这个仓库的读写权限。</p>
+
+<p>这里最后一行权限修改很重要，如果不修改则配置不会生效。</p>
+
+<ul>
+<li>增加成员和仓库</li>
+</ul>
+
+<p>用本机root身份将gitosis-admin.git pull下来</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">git</span> <span class="n">init</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">origin</span> <span class="n">git</span><span class="vi">@hostname_or_ipaddr</span><span class="ss">:/</span><span class="n">gitosis</span><span class="o">-</span><span class="n">admin</span><span class="o">.</span><span class="n">git</span>
+<span class="c1"># 注意这里只有一个 : 和一个 / </span>
+<span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre>
+</div>
+
+<p>一切顺利的话管理仓库应该会被pull下来的
+编辑gitosis.conf</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="o">[</span><span class="n">group</span> <span class="n">gitosis</span><span class="o">-</span><span class="n">admin</span><span class="o">]</span>  <span class="c1">#group代表一个组，gitosis-admin为组名</span>
+<span class="n">writable</span> <span class="o">=</span> <span class="n">gitosis</span><span class="o">-</span><span class="n">admin</span> <span class="c1">#writable的值为该组的成员可以写的仓库名</span>
+<span class="n">members</span> <span class="o">=</span> <span class="n">louis</span><span class="vi">@laptop</span> <span class="c1">#members代表组员，多个组员用空格分割，组员名用username@host的格式</span>
+</code></pre>
+</div>
+
+<p>该配置的意思就是gitosis-admin这个组中有一个 louis@laptop成员，并且该组的成员对 gitosis-admin这个repo可写
+因为这里组名和repo名一样，所以要注意区分，这两个是完全不同的</p>
+
+<p>增加仓库</p>
+
+<p>仓库不用手动创建，只要在配置文档中某成员对某个名称的仓库（该仓库可能还不存在！）可写，那么当该成员向这个远程仓库push的时候，gitosis会自动在/home/git/repositories下创建仓库对应的目录the_repo.git。</p>
+
+<p>增加成员</p>
+
+<p>如上文说的，增加成员直接在members中写出成员名字就行了，然后需要该成员把自己的公钥复制到keydir中，以 成员名.pub 的格式命名。</p>
+
+<p><strong><em>以上这些配置必须要push之后才能生效！</em></strong></p>
+
+<h3>代码自动部署</h3>
+
+<p>这里用一个git的post-update HOOK就能完成</p>
+
+<p>假设现在需要将web仓库提交来的代码自动部署到/var/www/html/目录下</p>
+
+<p>首先需要将/var/www/html加入版本控制，并切将远程仓库设置为 web.git</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1">#hooks文件夹下存储了各种钩子的实例文件</span>
+<span class="c1">#如果要添加post-update钩子，则将post-update.sample后面的.sample去掉即可，当用户提交后，git会自动在hooks目录下寻找名为post-update的文件，若找到则执行其中代码</span>
+<span class="n">cd</span> <span class="sr">/home/</span><span class="n">git</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">web</span><span class="o">.</span><span class="n">git</span><span class="o">/</span><span class="n">hooks</span>
+<span class="c1">#创建post-update文件</span>
+<span class="n">touch</span> <span class="n">post</span><span class="o">-</span><span class="n">update</span>
+<span class="n">vim</span> <span class="n">post</span><span class="o">-</span><span class="n">update</span>
+</code></pre>
+</div>
+
+<p>在psot-update中加入以下代码</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="no">DEPLOY_DIR</span><span class="o">=</span><span class="sr">/var/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span>
+<span class="n">unset</span> <span class="no">GIT_DIR</span> <span class="c1">#!important 如果不使用这句，是无法改变下面git pull的执行环境的</span>
+<span class="n">cd</span> <span class="vg">$DEPLOY_DIR</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">master</span>
+</code></pre>
+</div>
+
+<p>这样当每次push之后，git都会自动在/var/www/html下自动执行一次git pull origin master，这样就实现了自动部署代码的功能。</p>
+
+<p><strong><em>这里要注意所有文件目录的权限问题，要确保git用户拥有读写权限</em></strong></p>
+
+
+ 
+  
+
+  
+
+
+  <h2><a href="/2013/10/zabbix-works-with-external-scripts/" title="[Permalink] zabbix与外部监控脚本整合方案">zabbix与外部监控脚本整合方案</a></h2>
+	<div class="post_date">16 October 2013</div>
+ 
+  <blockquote>
+<p>自写的外部监控脚本可能需要单独处理报警触发条件，结果展现等问题。而触发条件可能遇到很复杂的情况，zabbix对于这类问题是一个很不错的方案，而且zabbix完全支持外部数据处理。本文介绍一个将zabbix和外部监控脚本整合的方案。</p>
+</blockquote>
+
+<hr>
+
+<h3>场景例子</h3>
+
+<p>UrlWatch是一个python脚本，监控部分url的状态，包括：</p>
+
+<ul>
+<li>code 返回代码</li>
+<li>span 执行时间</li>
+</ul>
+
+<p>现在的需求是用zabbix来搜集code和span数据，然后决策是否发出报警，画统计图。</p>
+
+<h3>实现</h3>
+
+<h4>整体思路</h4>
+
+<p>外部脚本在一个 <strong><em>source</em></strong> 文件上打日志，日志格式是：</p>
+
+<blockquote>
+<p>service  item[params]=value  item[params]=value ...</p>
+</blockquote>
+
+<p>service是服务，item是监控项，params是额外的参数，value是对应值</p>
+
+<p>对应到UrlWatch的例子：</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">urlwatch</span>  <span class="n">code</span><span class="p">[</span><span class="n">www</span><span class="o">.</span><span class="n">baidu</span><span class="o">.</span><span class="n">com</span><span class="p">]</span><span class="o">=</span><span class="mi">200</span>   <span class="n">span</span><span class="p">[</span><span class="n">www</span><span class="o">.</span><span class="n">baidu</span><span class="o">.</span><span class="n">com</span><span class="p">]</span><span class="o">=</span><span class="mf">0.001</span>
+<span class="n">urlwatch</span>  <span class="n">code</span><span class="p">[</span><span class="n">www</span><span class="o">.</span><span class="n">sina</span><span class="o">.</span><span class="n">com</span><span class="p">]</span><span class="o">=</span><span class="mi">302</span>    <span class="n">span</span><span class="p">[</span><span class="n">www</span><span class="o">.</span><span class="n">sina</span><span class="o">.</span><span class="n">com</span><span class="p">]</span><span class="o">=</span><span class="mf">0.00001</span>
+</code></pre>
+</div>
+
+<p>然后一个pnp(pull n push)守护程序去监控这个 <strong><em>source</em></strong> 文件的新添加的内容（类似tail -F），
+一旦检测到新内容后，读取并进行PARSE，然后与一个 <strong><em>discovery</em></strong> 文件内容做对比，
+<strong><em>discovery</em></strong> 文件保存的是discovery需要使用的JSON格式数据（见后文），如果service和item组合
+不存在于discovery文件中，则以固定格式写进discovery文件。 之后调用zabbix_sender将结果发送给
+server端，实现zabbix搜集数据。
+server端的discovery跑一个自定义的key（后文），key对应的程序拉取discovery文件的JSON数据稍微组合后返回给zabbix，实现基于source中的
+service和item自动创建zabbix的item、trigger、graph等。
+实现结构大致如下图：
+<img src="/images/post/zabbix-workds-with-external-script/4.png" alt="arch"></p>
+
+<h4>discovery</h4>
+
+<p>在zabbix前端建立名为 <strong><em>external</em></strong> 的host，该host管理外部数据。
+在host建立一个discovery。
+<img src="/images/post/zabbix-workds-with-external-script/1.jpg" alt="discovery"></p>
+
+<p>这里说明一下key，discovery支持自定义的发现，也就是可以用UserParameter来设定discovery的自定义key，自定义key返回固定格式的json数据，如下：
+<img src="/images/post/zabbix-workds-with-external-script/2.jpg" alt="discovery json">
+当data中每多一项，则discovery就认为多发现了一项。</p>
+
+<p>还要注意这里key中还指定了参数，这两个参数是过滤data数组用的，也就是说从一个json数据中赛选出部分数据返回，不返回全部. Discovery本身也支持过滤，filter，可以指定macro来只返回我们关心的数据，不过经过测试只能支持单一的macro匹配。</p>
+
+<p>在上面这个例子，我们可以通过FSNAME来过滤内容（只返回FSNAME字段的内容匹配的项），但不能通过FSNAME 和 FSTYPE来过滤（实验结果，官方文档没做介绍），所以这里改用参数来进行过滤。由于返回数据是由自定义key来做，所以我们可以随意得根据参数来过滤内容（这部分不熟悉的可以参考zabbix UserParameter）。</p>
+
+<p>然后我们需要做的就是自写一个脚本作为external.discovery的执行脚本，并支持传入参数。返回的数据格式符合标准就OK。</p>
+
+<h4>item prototype</h4>
+
+<p>接下来的工作就是创建item prototype，一旦discovery发现新项，就会自动根据item样板创建实际的item，如果一个discovery下有多个item prototype，那么每发现一个新项（data数组中多一个元素），discovery就会创建多个item。trigger类似。
+<img src="/images/post/zabbix-workds-with-external-script/3.jpg" alt="item prototype">
+呃，这里注意macro的使用就行了，我把所有的外部脚本的key都明明为external，从参数去区分他们。
+item设置里可以使用descovery返回数据中的macro（就是data数组中每个元素的键名，注意这里宏的符号是#），type必须选择Zabbix trapper，因为要用到zabbix sender主动推送数据过来。</p>
+
+<p>zabbix前端暂时就这样。</p>
+
+<h4>script</h4>
+
+<p>点<a href="https://github.com/louis-sherren/l2zabbix">这里</a>查看代码</p>
+
+
+ 
+  
+
+  
+
+
+  <h2><a href="/2013/10/nice-things-happen/" title="[Permalink] 杂谈">杂谈</a></h2>
+	<div class="post_date">16 October 2013</div>
+ 
+  <p>昨天做梦遇到红得发亮的美丽的蛇，今天一大早我妈就打电话来说可以自己走路了，在网上搜了一下关于解梦的内容，说遇见红蛇预示着家人身体健康。 </p>
+
+<p><strong><em>但愿解梦都很准吧</em></strong>。</p>
+
+
+ 
+  
+
+  
+
+
+  <h2><a href="/2013/09/how-to-build-git/" title="[Permalink] 如何用github pages搭建一个博客">如何用github pages搭建一个博客</a></h2>
+	<div class="post_date">29 September 2013</div>
+ 
+  <blockquote>
+<p>本文讲述如何用github来搭建一个博客系统, 主要讲了下搭建流程。</p>
+</blockquote>
+
+<h3>github pages</h3>
+
+<p>github pages本意是快速给项目或个人创建展示性的页面, 搭建在github的服务器上, 并支持独立域名; 但是上面只能放静态站点, 但这完全
+不影响我们用他来作博客, 因为他支持强大的jekyll引擎.</p>
+
+<h3>利弊</h3>
+
+<h4>好处</h4>
+
+<ol>
+<li>免费稳定的服务器能让我们有更多的钱去买吃的.</li>
+<li>很多现成的用github pages搭建的站点, 均是开源的, 如果喜欢某一套网站的模板, 可以悄悄地fork到其源码, 遵循一些协议就可以占为己用, 在<a href="https://github.com/mojombo/jekyll/wiki/Sites">这里</a>可以看到很多用github pages + jekyll开发的网站.</li>
+<li>网站可以随意定制.</li>
+<li>既然是github的东西自然少不了版本控制.</li>
+<li>静态页面加载速度快.</li>
+<li>使用markdown语法, 直接用Vim写出统一风格的漂亮博文.</li>
+<li>...</li>
+</ol>
+
+<h4>坏处</h4>
+
+<ol>
+<li>静态页面, 部分交互功能实现起来比较麻烦.</li>
+<li>markdown乱解析问题.</li>
+<li>GFW有时要使坏.</li>
+</ol>
+
+<h3>hello kitty(就是不用 hello world)</h3>
+
+<p>首先得去github上建立一个名为{username}.github.io的项目, 并在本地pull到项目, 写一个hello kitty到index.html, 第一次push上去后, 需要等一个大便的时间, 才可以用{username}.github.io来访问到页面. 域名解析在根目录中建立一个名为CNAME的文件, 文件里填写域名就可以了, 修改这个文件后, 要用域名访问博客, 也需要等上一个大便的时间.</p>
+
+<p>好了, 既然现在页面已经能正常访问. 就可以放上任意的静态东西了.</p>
+
+<h3>jekyll</h3>
+
+<p>现在可以直接通过手写html来搭建博客, 不过这工作量太大, 现在就是jekyll派上用场的时候了, 官方文档在<a href="http://jekyllrb.com/docs/home/">这里</a>.</p>
+
+<p>可以在本地配一个jekyll, 测试比较方便, 如果不想搭配本地环境, 可以直接将代码推到github上来浏览页面.</p>
+
+<p>本地可以直接查看文档, 用</p>
+
+<blockquote>
+<p>sudo jekyll dosc</p>
+</blockquote>
+
+<p>运行完毕后在浏览器输入localhost:4000就能看到跟官方网站一模一样的东西了.</p>
+
+<h4>安装</h4>
+
+<blockquote>
+<p>sudo apt-get install rubygems</p>
+
+<p>gem install jekyll</p>
+
+<p>jekyll new myblog</p>
+</blockquote>
+
+<p>gem是ruby提供的包管理工具.
+jekyll new 实现自动创建一些目录, 现在cd到myblog就可以看见jekyll自动帮我们生成的文件结构了.</p>
+
+<p>windows用户可以参考<a href="http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html">这篇文章</a>.</p>
+
+<h3>front-matter</h3>
+
+<p>每个文件在开始出可以有一些头部信息, 格式如下:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="o">---</span>
+<span class="c1">#this is configure</span>
+<span class="o">---</span>
+</code></pre>
+</div>
+
+<p>这里可以制定该文件的一些属性 </p>
+
+<p><strong>layout</strong>: 指定该页面用哪个模板.</p>
+
+<p><strong>title</strong>: 文章的标题.</p>
+
+<p><strong>category</strong>: 文章分类.</p>
+
+<h4>目录结构</h4>
+
+<p>所有特殊的目录都是以下划线开头.</p>
+
+<ul>
+<li>_config.yml</li>
+</ul>
+
+<p>这个是文件, 里面放存放配置信息, 常用配置如下</p>
+
+<p><strong>destination</strong>: 这里配置jekyll将编译好的网站放到的地方, 默认放入build</p>
+
+<p><strong>safe</strong>: 是否允许插件.</p>
+
+<p><strong>server_port</strong>: jekyll服务的端口, 如果4000被占用了就修改这个端口号.</p>
+
+<p><strong>permalink</strong>: 自定义url模板, 参考<a href="http://jekyllrb.com/docs/permalinks/">这篇</a>文章.</p>
+
+<p><strong>pygments</strong>: true则自动设置代码高亮.</p>
+
+<p><strong>markdown</strong>: 设置markdown的编译器, 比较重要, markdown不同编译器的编译的结果可能有些不同, 并且有些对中文支持不够, 这里建议设置为 redcarpet.</p>
+
+<p><strong>paginate</strong>: 设置每一页显示的item数量, 配合paginate_path使用, 有关分页的说明参考<a href="http://jekyllrb.com/docs/pagination/">这里</a>.</p>
+
+<p>常用大概就这么多了, 具体看自己的需求, 全部配置信息可以从<a href="http://jekyllrb.com/docs/configuration/">这里</a>获得.</p>
+
+<ul>
+<li>_layout</li>
+</ul>
+
+<p>这是文件夹, _layout文件夹存放html文件.</p>
+
+<p>layout中是放模板的地方, 每个页面可以制定其模板, 指定了以后, 页面就会自动被layout填充. 编译后的页面, 会将layout引进过来, 页面本身的内容写在layout文件中 **** 的地方.</p>
+
+<ul>
+<li>_include</li>
+</ul>
+
+<p>这是文件夹, _include文件夹存放html文件.</p>
+
+<p>include中存放一些常用的html文件, 如头部和脚步. 这个在大多的模板引擎中已经见惯了, 这里就不细谈了. 可以在任意文件中将 include 中的文件夹中的文件通过 <strong>{ % include footer.html % }</strong> 引用进来.</p>
+
+<ul>
+<li>_posts</li>
+</ul>
+
+<p>这是文件夹, _posts文件夹存放markdown文件.</p>
+
+<p>posts中就是存放博文的地方了, 文件名格式是 </p>
+
+<blockquote>
+<p>YYYY-mm-dd-your-blog-title.markdown </p>
+</blockquote>
+
+<p>比如本篇文章对应的post文件名是</p>
+
+<blockquote>
+<p>2013-09-29-how-to-build-git.markdown</p>
+</blockquote>
+
+<p>博文使用markdown语法书写, <a href="http://wowubuntu.com/markdown/">这里</a>是markdown教程.</p>
+
+<h3>部署</h3>
+
+<p>jekyll的部署很简单, 在本地的话直接执行</p>
+
+<blockquote>
+<p>jekyll build</p>
+</blockquote>
+
+<p>然后在build文件夹中, 可以看到生成的网站代码了. 然后用</p>
+
+<blockquote>
+<p>jekyll serve --detach</p>
+</blockquote>
+
+<p>jekyll serve表示开启服务, 默认4000端口, --detach表示后台运行. 现在访问localhost:4000就可以看到博客了.</p>
+
+<p>在github上部署, 直接将<strong>项目</strong>根目录(注意这里不需要将build目录加进去), push到{username}.github.io就可以了.</p>
+
+<p>github会自动识别这是一个jekyll项目并进行parse</p>
+
+<h3>分类</h3>
+
+<p>下回分解</p>
+
+
+ 
+  
+
+  
+
+
   <h2><a href="/2013/09/vpn-setup/" title="[Permalink] 搭一个VPN服务器需要些什么">搭一个VPN服务器需要些什么</a></h2>
 	<div class="post_date">26 September 2013</div>
  
@@ -79,14 +599,19 @@
 <p>下面是一些常用的组合命令</p>
 
 <blockquote>
-<p>rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议
-rpm -ivh -replacepkgs 替换原有的相同包</p>
+<p>rpm -ivh i表示安装包，vh组合打印安装进度，可以直接跟http或ftp协议</p>
 
-<p>rpm -qa q表示查看包，a表示查看所有安装的包
-rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西
-rpm -qpi i information 查看包的信息
-rpm -qf f file 查看某个文件属于哪个包
-which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
+<p>rpm -ivh -replacepkgs 替换原有的相同包</p>
+
+<p>rpm -qa q表示查看包，a表示查看所有安装的包</p>
+
+<p>rpm -qpl p provides 查看包提供些什么，l list 列出包中的文件 pl可以查看包会在系统中安装哪些东西</p>
+
+<p>rpm -qpi i information 查看包的信息</p>
+
+<p>rpm -qf f file 查看某个文件属于哪个包</p>
+
+<p>which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
 </blockquote>
 
 <h3>起服务</h3>
@@ -103,7 +628,7 @@ which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
 
 <h4>chkconfig</h4>
 
-<p>chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数都是用来设置开机自动启动。</p>
+<p>chkconfig 管理linux各个服务在系统以什么样的方式运行时的状态，大多数情况下都是用来设置开机自动启动</p>
 
 <blockquote>
 <p>chkconfig pptpd off 关闭开机自动启动</p>
@@ -120,12 +645,73 @@ which python | xargs rpm -qf 查看可执行文件python属于哪个包</p>
 <p>iptables 就是防火墙，可以根据自定义的过滤规则设置哪些数据包接受哪些数据包丢弃，还可以设置流量转发</p>
 
 <blockquote>
-<p>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
-这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0网段的流量(-s 192.168.0.0/24)
-转发到eth0网卡上(-o eth0)</p>
+<p>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</p>
 </blockquote>
 
-<p>iptables 东西太多了， 这里就不细讲</p>
+<p>这条命令修改nat表(-t)，增加一条规则(-A)，当流量流出时改变流量(POSTROUTING)，将来自192.168.0.0/255.255.255.0网段的流量(-s 192.168.0.0/24)
+转发到eth0网卡上(-o eth0), 这里-s要根据ppp设置的网段来设置</p>
+
+<ul>
+<li>-t(table) 选择table</li>
+<li>-s(source) 指定来源</li>
+<li>-A(Append) 增加一条规则</li>
+<li>-o(out) 数据包发出的接口</li>
+<li>-p(protocol) 数据包协议</li>
+<li>-m(match?) 可以匹配一些状态信息</li>
+<li>-j(jump) 匹配到包后执行什么动作</li>
+</ul>
+
+<p>INPUT, FORWARD, POSTROUTING, OUTPUT等是chain(链), 指数据包正处的位置</p>
+
+<p>设置完iptables后, Linux需要开启内核流量转发</p>
+
+<blockquote>
+<p>echo &quot;1&quot; &gt; /proc/sys/net/ipv4/ip_forward</p>
+</blockquote>
+
+<p>设置开机自动</p>
+
+<blockquote>
+<p>vim /etc/sysctl.conf</p>
+</blockquote>
+
+<p>修改以下信息:</p>
+
+<blockquote>
+<p>net.ipv4.ip_forward = 0 #0为关闭，1为开启</p>
+</blockquote>
+
+<p>现在如果一切正常的话，VPN应该就能正常使用了</p>
+
+<h3>错误处理</h3>
+
+<h4>日志</h4>
+
+<p>VPN 客户端或服务器每次连接都会写/var/log日志, 在/var/log中ls -l一下可以看出最近修改的文件, 查看最近修改的文件就可以知道VPN打的日志了</p>
+
+<h4>tcpdump</h4>
+
+<ul>
+<li>-i(interface) 设备</li>
+<li>port 端口</li>
+<li>host host</li>
+</ul>
+
+<p>一个常规的dump</p>
+
+<blockquote>
+<p>tcpdump -i lo port 80</p>
+</blockquote>
+
+<p>查看本地HTTPD处理的数据包</p>
+
+<blockquote>
+<p>tcpdump -i eth0 port not 80</p>
+</blockquote>
+
+<p>查看eth0网卡发出的非http数据包</p>
+
+<h3>EOF</h3>
 
 
  
@@ -202,31 +788,6 @@ To add new posts, simply add a file in the <code>_posts</code> directory that fo
   
 
 
-  <h2><a href="/2013/09/welcome-to-jekyll/" title="[Permalink] Welcome to Jekyll!">Welcome to Jekyll!</a></h2>
-	<div class="post_date">23 September 2013</div>
- 
-  <p>You&#39;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
-To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
-
-<p>Jekyll also offers powerful support for code snippets:</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
-<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
-</code></pre>
-</div>
-
-<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&#39;s GitHub repo</a>.</p>
-
-
- 
-  
-
-  
-
-
   <h2><a href="/2013/09/my-first-blog/" title="[Permalink] Welcome to Jekyll!">Welcome to Jekyll!</a></h2>
 	<div class="post_date">23 September 2013</div>
  
@@ -292,6 +853,31 @@ To add new posts, simply add a file in the <code>_posts</code> directory that fo
 <span class="cp">?&gt;</span><span class="x"></span>
 </code></pre>
 </div>
+
+
+ 
+  
+
+  
+
+
+  <h2><a href="/2013/09/welcome-to-jekyll/" title="[Permalink] Welcome to Jekyll!">Welcome to Jekyll!</a></h2>
+	<div class="post_date">23 September 2013</div>
+ 
+  <p>You&#39;ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
+To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
+<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span>
+</code></pre>
+</div>
+
+<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&#39;s GitHub repo</a>.</p>
 
 
  

@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+		
+      <title>如何用github pages搭建一个博客 &bull; Louis-Sherren</title>
+		
+    <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" media="all" />
+    <link rel="alternate" title="louis-sherren" type="application/atom+xml" href="/atom.xml" />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+		<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css' /> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Viewport" content="maximum-scale=1.8,width=720" />
+    
+  </head>
+ 
+  <body>
+	
+    <div id="header">
+    	<h1>
+    		<a href="/" title="louis-sherren">louis sherren</a>
+    	</h1>
+    </div>
+    <div class="clear_both"></div>
+    <div id="navigation">
+    	<ul>
+    		<li><a href="/about/" title="About this Blog">About</a></li>
+    		<li><a href="/archive/" title="Archive of this Blog">Archive</a>&bull;</li> 
+            <li id="c_popup"><a href="javascript:void" title="Category">Category</a>&bull;</li>
+    		<li><a href="/" title="Blog">Blog</a>&bull;</li> 
+    	</ul>
+        <div class="category_popup">
+            <div class="category_popup_main">
+                <div class="category_item" data-href="/categories/linux/">Linux</div>
+                <div class="category_item" data-href="/categories/php/">PHP</div>
+                <div class="category_item" data-href="/categories/shell/">Shell</div>
+                <div class="category_item" data-href="/categories/gist/">Gist</div>
+                <div class="category_item" data-href="/categories/javascript/">JavaScript</div>
+                <div class="category_item" data-href="/categories/c/">C</div>
+                <div class="category_item" data-href="/categories/python/">Python</div>
+                <div class="category_item" data-href="/categories/apache/">Apache</div>
+                <div class="clear_both"></div>
+            </div>
+        </div>
+    </div>			
+    <div class="clear_both"></div>
+		<h2>
+	<a href="/2013/09/how-to-build-git/" title="[Permalink] 如何用github pages搭建一个博客">如何用github pages搭建一个博客</a>
+</h2>
+<div class="post_date">29 September 2013</div>
+
+<blockquote>
+<p>本文讲述如何用github来搭建一个博客系统, 主要讲了下搭建流程。</p>
+</blockquote>
+
+<h3>github pages</h3>
+
+<p>github pages本意是快速给项目或个人创建展示性的页面, 搭建在github的服务器上, 并支持独立域名; 但是上面只能放静态站点, 但这完全
+不影响我们用他来作博客, 因为他支持强大的jekyll引擎.</p>
+
+<h3>利弊</h3>
+
+<h4>好处</h4>
+
+<ol>
+<li>免费稳定的服务器能让我们有更多的钱去买吃的.</li>
+<li>很多现成的用github pages搭建的站点, 均是开源的, 如果喜欢某一套网站的模板, 可以悄悄地fork到其源码, 遵循一些协议就可以占为己用, 在<a href="https://github.com/mojombo/jekyll/wiki/Sites">这里</a>可以看到很多用github pages + jekyll开发的网站.</li>
+<li>网站可以随意定制.</li>
+<li>既然是github的东西自然少不了版本控制.</li>
+<li>静态页面加载速度快.</li>
+<li>使用markdown语法, 直接用Vim写出统一风格的漂亮博文.</li>
+<li>...</li>
+</ol>
+
+<h4>坏处</h4>
+
+<ol>
+<li>静态页面, 部分交互功能实现起来比较麻烦.</li>
+<li>markdown乱解析问题.</li>
+<li>GFW有时要使坏.</li>
+</ol>
+
+<h3>hello kitty(就是不用 hello world)</h3>
+
+<p>首先得去github上建立一个名为{username}.github.io的项目, 并在本地pull到项目, 写一个hello kitty到index.html, 第一次push上去后, 需要等一个大便的时间, 才可以用{username}.github.io来访问到页面. 域名解析在根目录中建立一个名为CNAME的文件, 文件里填写域名就可以了, 修改这个文件后, 要用域名访问博客, 也需要等上一个大便的时间.</p>
+
+<p>好了, 既然现在页面已经能正常访问. 就可以放上任意的静态东西了.</p>
+
+<h3>jekyll</h3>
+
+<p>现在可以直接通过手写html来搭建博客, 不过这工作量太大, 现在就是jekyll派上用场的时候了, 官方文档在<a href="http://jekyllrb.com/docs/home/">这里</a>.</p>
+
+<p>可以在本地配一个jekyll, 测试比较方便, 如果不想搭配本地环境, 可以直接将代码推到github上来浏览页面.</p>
+
+<p>本地可以直接查看文档, 用</p>
+
+<blockquote>
+<p>sudo jekyll dosc</p>
+</blockquote>
+
+<p>运行完毕后在浏览器输入localhost:4000就能看到跟官方网站一模一样的东西了.</p>
+
+<h4>安装</h4>
+
+<blockquote>
+<p>sudo apt-get install rubygems</p>
+
+<p>gem install jekyll</p>
+
+<p>jekyll new myblog</p>
+</blockquote>
+
+<p>gem是ruby提供的包管理工具.
+jekyll new 实现自动创建一些目录, 现在cd到myblog就可以看见jekyll自动帮我们生成的文件结构了.</p>
+
+<p>windows用户可以参考<a href="http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html">这篇文章</a>.</p>
+
+<h3>front-matter</h3>
+
+<p>每个文件在开始出可以有一些头部信息, 格式如下:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="o">---</span>
+<span class="c1">#this is configure</span>
+<span class="o">---</span>
+</code></pre>
+</div>
+
+<p>这里可以制定该文件的一些属性 </p>
+
+<p><strong>layout</strong>: 指定该页面用哪个模板.</p>
+
+<p><strong>title</strong>: 文章的标题.</p>
+
+<p><strong>category</strong>: 文章分类.</p>
+
+<h4>目录结构</h4>
+
+<p>所有特殊的目录都是以下划线开头.</p>
+
+<ul>
+<li>_config.yml</li>
+</ul>
+
+<p>这个是文件, 里面放存放配置信息, 常用配置如下</p>
+
+<p><strong>destination</strong>: 这里配置jekyll将编译好的网站放到的地方, 默认放入build</p>
+
+<p><strong>safe</strong>: 是否允许插件.</p>
+
+<p><strong>server_port</strong>: jekyll服务的端口, 如果4000被占用了就修改这个端口号.</p>
+
+<p><strong>permalink</strong>: 自定义url模板, 参考<a href="http://jekyllrb.com/docs/permalinks/">这篇</a>文章.</p>
+
+<p><strong>pygments</strong>: true则自动设置代码高亮.</p>
+
+<p><strong>markdown</strong>: 设置markdown的编译器, 比较重要, markdown不同编译器的编译的结果可能有些不同, 并且有些对中文支持不够, 这里建议设置为 redcarpet.</p>
+
+<p><strong>paginate</strong>: 设置每一页显示的item数量, 配合paginate_path使用, 有关分页的说明参考<a href="http://jekyllrb.com/docs/pagination/">这里</a>.</p>
+
+<p>常用大概就这么多了, 具体看自己的需求, 全部配置信息可以从<a href="http://jekyllrb.com/docs/configuration/">这里</a>获得.</p>
+
+<ul>
+<li>_layout</li>
+</ul>
+
+<p>这是文件夹, _layout文件夹存放html文件.</p>
+
+<p>layout中是放模板的地方, 每个页面可以制定其模板, 指定了以后, 页面就会自动被layout填充. 编译后的页面, 会将layout引进过来, 页面本身的内容写在layout文件中 **** 的地方.</p>
+
+<ul>
+<li>_include</li>
+</ul>
+
+<p>这是文件夹, _include文件夹存放html文件.</p>
+
+<p>include中存放一些常用的html文件, 如头部和脚步. 这个在大多的模板引擎中已经见惯了, 这里就不细谈了. 可以在任意文件中将 include 中的文件夹中的文件通过 <strong>{ % include footer.html % }</strong> 引用进来.</p>
+
+<ul>
+<li>_posts</li>
+</ul>
+
+<p>这是文件夹, _posts文件夹存放markdown文件.</p>
+
+<p>posts中就是存放博文的地方了, 文件名格式是 </p>
+
+<blockquote>
+<p>YYYY-mm-dd-your-blog-title.markdown </p>
+</blockquote>
+
+<p>比如本篇文章对应的post文件名是</p>
+
+<blockquote>
+<p>2013-09-29-how-to-build-git.markdown</p>
+</blockquote>
+
+<p>博文使用markdown语法书写, <a href="http://wowubuntu.com/markdown/">这里</a>是markdown教程.</p>
+
+<h3>部署</h3>
+
+<p>jekyll的部署很简单, 在本地的话直接执行</p>
+
+<blockquote>
+<p>jekyll build</p>
+</blockquote>
+
+<p>然后在build文件夹中, 可以看到生成的网站代码了. 然后用</p>
+
+<blockquote>
+<p>jekyll serve --detach</p>
+</blockquote>
+
+<p>jekyll serve表示开启服务, 默认4000端口, --detach表示后台运行. 现在访问localhost:4000就可以看到博客了.</p>
+
+<p>在github上部署, 直接将<strong>项目</strong>根目录(注意这里不需要将build目录加进去), push到{username}.github.io就可以了.</p>
+
+<p>github会自动识别这是一个jekyll项目并进行parse</p>
+
+<h3>分类</h3>
+
+<p>下回分解</p>
+
+
+<div class="previous_next_post">
+
+  
+    <p>
+      <strong>Previous Entry:</strong>
+      <a href="/2013/09/vpn-setup/" title="搭一个VPN服务器需要些什么">搭一个VPN服务器需要些什么</a>
+    </p>
+  
+
+  
+    <p>
+      <strong>Next Entry:</strong>
+      <a href="/2013/10/nice-things-happen/" title="杂谈">杂谈</a>
+    </p>
+  
+  
+  <div style="clear: both;"></div>
+  
+</div>
+
+
+		
+    <div id="footer">
+      Powered by <a href="http://github.com/mojombo/jekyll" title="Jekyll Site Generator">Jekyll</a> 
+
+    </div>
+    <script src="/scripts/jquery.js"></script>
+    <script>
+        var c_popup = $("#c_popup");
+        var category_popup = $(".category_popup");
+        var category_items = $(".category_item");
+        c_popup.mouseover(function(){
+            category_popup.show();
+        });
+        c_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        category_popup.mouseover(function(){
+            category_popup.show();
+        })
+        category_popup.mouseout(function(){
+            category_popup.hide();
+        });
+        $(".category_item").click(function(){
+            location.href = $(this).attr("data-href");
+        });
+    </script>
+  </body>
+</html>
