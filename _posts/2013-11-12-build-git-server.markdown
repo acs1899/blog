@@ -44,9 +44,10 @@ useradd -m git
 
 gitosis的初始化需要一份公钥，对应用户即为git repo的管理员。这里管理员对git repo的控制，实际上也是通过控制一个gitosis-admin.git来控制成员和其他repo的，admin-repo中有一份配置文档和一个keydir，keydir里面存放成员的公钥，后面会cover这一点。
 
-现在处于方便，直接将本机用root账户作为repo的管理员，切到root下
+现在处于方便，直接将本机用git账户作为repo的管理员，切到git下
 
 {% highlight ruby %}
+su - git
 ssh-keygen
 # 三次回车
 ls ~/.ssh/id_rsa.pub
@@ -71,7 +72,7 @@ sudo chmod 755 /home/git/repositories/gitosis-admin.git/hooks/post-update
 
 * 增加成员和仓库
 
-用本机root身份将gitosis-admin.git pull下来
+用本机git用户将gitosis-admin.git pull下来
 
 {% highlight ruby %}
 git init
@@ -119,7 +120,7 @@ touch post-update
 vim post-update
 {% endhighlight %}
 
-在psot-update中加入以下代码
+在post-update中加入以下代码
 
 {% highlight ruby %}
 DEPLOY_DIR=/var/www/html/
